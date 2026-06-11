@@ -7,7 +7,6 @@
 
 using namespace vex;
 
-
 void rightAuton() {
 
   //Use functions to create an auton for the right side of the field

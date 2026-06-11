@@ -1,3 +1,4 @@
+#pragma once
 #include "vex.h"
 
 class drive {
@@ -7,14 +8,14 @@ class drive {
         double gearRatio;
 
         //default tuning constants for straight line driving
-        double drive_kP = 6;
-        double drive_kI = 0.1;
-        double drive_kD = 0.5;
+        double drive_kP = 2;
+        double drive_kI = 0.05;
+        double drive_kD = 0.2;
 
         //default tuning constants for turning
-        double turn_kP = 1;
+        double turn_kP = 0.5;
         double turn_kI = 0.01;
-        double turn_kD = 0.1;
+        double turn_kD = 0.05;
     
     public:
         vex::motor_group driveL;

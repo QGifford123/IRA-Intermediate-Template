@@ -1,4 +1,5 @@
 #include "vex.h"
+#include "robot-config.h"
 #include "util.h"
 #include "drive.h"
 #include "PID.h"
@@ -25,23 +26,30 @@ void drive::driveDistance(double distance, double tolerance) {
 }
 
 void drive::driveDistance(double distance, double tolerance, double kP, double kI, double kD) {
-    setDTPosition(0);
+    setDTPosition(0, gearRatio, wheelDiameter);
     double error = distance;
 
     PID drivePID(distance, kP, kI, kD, tolerance);
 
-    double avgPos = degreesToInches((driveL.position(degrees) + driveR.position(degrees))/2);
-
+    double avgPos = degreesToInches((driveL.position(degrees) + driveR.position(degrees))/2, gearRatio, wheelDiameter);
+    
     while(fabs(error) > tolerance) {
-        avgPos = degreesToInches((driveL.position(degrees) + driveR.position(degrees))/2);
+        avgPos = degreesToInches((driveL.position(degrees) + driveR.position(degrees))/2, gearRatio, wheelDiameter);
         error = distance - avgPos;
 
         double driveTotal = drivePID.calculateTotal(error);
+
+        Brain.Screen.clearScreen();
+        Brain.Screen.setCursor(1, 1);
+        Brain.Screen.print(error);
 
         driveL.spin(forward, driveTotal, percent);
         driveR.spin(forward, driveTotal, percent);
         wait(drivePID.getUpdateTime(), msec);
     }
+
+    driveStop();
+    wait(50, msec);
 }
 
 void drive::turnAngle(double angle) {

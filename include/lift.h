@@ -7,9 +7,9 @@ class lift {
     public:
         lift(int Lift1Port, int Lift2Port, vex::triport::port pistonPort);
 
-        motor Lift1;
-        motor Lift2;
-        digital_out DoubleActingPiston;
+        vex::motor Lift1;
+        vex::motor Lift2;
+        vex::digital_out DoubleActingPiston;
 
         void liftArm(double degrees, double speed);
         void clamp();
