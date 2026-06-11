@@ -4,21 +4,17 @@
 
 using namespace vex;
 
-const double GEAR_RATIO = 5.0 / 3; //remember to make the first number a decimal, otherwise the quotient will be rounded down
-const double WHEEL_DIAMETER = 3.25;
-
-double inchesToDegrees(double inches) {
-    return ((inches / (M_PI * WHEEL_DIAMETER)) * 360 * GEAR_RATIO);
+double inchesToDegrees(double inches, double gearRatio, double wheelDiameter) {
+    return ((inches / (M_PI * wheelDiameter)) * 360 * gearRatio);
 }
 
-double degreesToInches(double deg) {
-    return ((deg / (360 * GEAR_RATIO)) * (M_PI * WHEEL_DIAMETER));
+double degreesToInches(double deg, double gearRatio, double wheelDiameter) {
+    return ((deg / (360 * gearRatio)) * (M_PI * wheelDiameter));
 }
 
+void setDTPosition(double inches, double gearRatio, double wheelDiameer) {
 
-void setDTPosition(double inches) {
-
-    double deg = inchesToDegrees(inches);
+    double deg = inchesToDegrees(inches, gearRatio, wheelDiameer);
 
     leftDrive.setPosition(deg, degrees);
     rightDrive.setPosition(deg, degrees);
@@ -43,10 +39,10 @@ void spinDT(double velocity) {
     spinLeftDT(velocity);
 }
 
-void spinDTPosition(double rpmVelocity, double targetInches){
+void spinDTPosition(double rpmVelocity, double targetInches, double gearRatio, double wheelDiameter){
 
-    setDTPosition(0);
-    double targetDegrees = inchesToDegrees(targetInches);
+    setDTPosition(0, gearRatio, wheelDiameter);
+    double targetDegrees = inchesToDegrees(targetInches, gearRatio, wheelDiameter);
 
     leftDrive.spinToPosition(targetDegrees, degrees, rpmVelocity, rpm, false);
     rightDrive.spinToPosition(targetDegrees, degrees, rpmVelocity, rpm, true);
@@ -70,31 +66,3 @@ void runOutake(){
 void stopIntake(){
     intakeMotor.stop(coast);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*spinRightDT(-velocity);
-    spinLeftDT(velocity);
-    wait(time, msec);
-    stopDT();*/

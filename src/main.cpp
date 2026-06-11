@@ -14,7 +14,7 @@
 #include "autons.h"
 #include "auton-selector.h"
 #include "lift.h"
-#include "functions.h"
+#include "util.h"
 
 using namespace vex;
 

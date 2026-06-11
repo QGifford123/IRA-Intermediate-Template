@@ -2,7 +2,7 @@
 #include "vex.h"
 #include "PID.h"
 #include "lift.h"
-#include "functions.h"
+#include "util.h"
 #include "autons.h"
 
 using namespace vex;
@@ -10,10 +10,7 @@ using namespace vex;
 
 void rightAuton() {
 
-  drivePID(12);
-  turnPID(90);
-  turnPID(-90);
-  drivePID(-12);
+  //Use functions to create an auton for the right side of the field
 
 
 }
@@ -22,7 +19,7 @@ void rightAuton() {
 
 void leftAuton() {
   
-  //Use functions to create an auton for the right side of the field
+  //Use functions to create an auton for the left side of the field
 
 }
 
@@ -31,8 +28,3 @@ void skillsAuton() {
   //Use functions to create a programming skills routine
   
 }
-
-
-  
-
-

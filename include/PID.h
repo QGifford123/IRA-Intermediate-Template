@@ -1,10 +1,31 @@
 /* Helps prevent header files from being included multiple times*/
 #pragma once
 
-/* These prevent header files from being included multiple times*/
+class PID {
+
+    private:
+        double error = 0;
+        double kP = 0;
+        double kI = 0;
+        double kD = 0;
+        double integral = 0;
+        double derivative = 0;
+        double prevError = 0;
+        double windupThreshold = 12;
+        double total = 0;
+        double tolerance = 0;
+        double updateTime = 10;
+    
+    public:
+        PID(double startError, double kp, double ki, double kd);
+        PID(double startError, double kp, double ki, double kd, double Tolerance);
+        PID(double startError, double kp, double ki, double kd, double Tolerance, double WindupTheshold, double UpdateTime);
+
+        double calculateTotal(double currentError);
+
+        double getUpdateTime();
+};
 
 
-void drivePID(double targetInches, double kP = 6, double kI = 0.15, double kD = 0.05);
-void turnPID(double targetAngle, double kP = 0.5, double kI = 0.005, double kD = 0.04);
 
 
