@@ -142,7 +142,8 @@ void drive::turnHeading(double heading, double tolerance, double kP, double kI, 
 
 void drive::turnToPoint(double targetX, double targetY, double tolerance, double kP, double kI, double kD) {
 
-    double neededAngle = fmod((atan2(targetX-xCoord, targetY-yCoord)),(2*M_PI)) * 180 / M_PI;
+    double neededAngle = (atan2(targetX-xCoord, targetY-yCoord)) * 180 / M_PI;
+    if (neededAngle < 0) neededAngle += 360;
 
     //If already at correct angle, wait
     if(neededAngle == Inertial.heading()) {
