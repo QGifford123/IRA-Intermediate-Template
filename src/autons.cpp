@@ -13,16 +13,13 @@ void rightAuton() {
   Controller.Screen.setCursor(3, 1);
   Controller.Screen.print("start auton");
 
-  drive Chassis(3.25, 4.0/3, leftDrive, rightDrive, PORT1);
+  drive Chassis(3.25, 4.0/3, 24, 0, 0, leftDrive, rightDrive, PORT1);
   intake Intake(intakeMotors);
 
   Chassis.driveDistance(24, 1, 1, 0, 0.1);
-  Intake.startIntake();
-  Chassis.turnAngle(90);
-  Chassis.turnAngle(-90);
-  wait(2, sec);
-  Intake.stopIntake();
-  Chassis.driveDistance(-24);
+  wait(5, sec);
+  Chassis.turnAndDriveToPoint(72, 24, 2, 0.5, 0, 0.05, 1, 1, 0, 0.1);
+  wait(5, sec);
 }
 
 

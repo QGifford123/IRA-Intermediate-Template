@@ -46,4 +46,6 @@ class drive {
 
         void turnToPoint(double targetX, double targetY, double tolerance, double kP, double kI, double kD);
         void turnAndDriveToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD);
+
+        void printCoordInfo();
 };

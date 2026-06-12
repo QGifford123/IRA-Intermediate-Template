@@ -62,16 +62,12 @@ void drive::driveDistance(double distance, double tolerance, double kP, double k
 
     double xAxisAngle = (Inertial.heading() * -1) + 90;
     while(xAxisAngle < 360) xAxisAngle += 360;
+    xAxisAngle *= M_PI / 180; //convert deg to rad
 
     xCoord += cos(xAxisAngle) * (distance - error);
     yCoord += sin(xAxisAngle) * (distance - error);
 
-    Brain.Screen.clearScreen();
-    Brain.Screen.setCursor(1, 1);
-    Brain.Screen.print("x: ");
-    Brain.Screen.print(xCoord);
-    Brain.Screen.print(", y: ");
-    Brain.Screen.print(yCoord);
+    printCoordInfo();
 }
 
 void drive::turnAngle(double angle) {
@@ -163,4 +159,17 @@ void drive::turnAndDriveToPoint(double targetX, double targetY, double turnToler
     
     double targetDistance = sqrt(((xCoord - targetX) * (xCoord - targetX)) + ((yCoord - targetY) * (yCoord - targetY)));
     driveDistance(targetDistance, driveTolerance, drivekP, drivekI, drivekD);
+}
+
+void drive::printCoordInfo() {
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+    Brain.Screen.print("x: ");
+    Brain.Screen.print(xCoord);
+    Brain.Screen.print(", y: ");
+    Brain.Screen.print(yCoord);
+
+    Brain.Screen.setCursor(3, 1);
+    Brain.Screen.print("heading: ");
+    Brain.Screen.print(Inertial.heading());
 }

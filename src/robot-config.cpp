@@ -50,4 +50,5 @@ void vexcodeInit() {
   while (InertialSensor.isCalibrating()) {
     task::sleep(100);
   }
+  Controller.rumble("...");
 }
