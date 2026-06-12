@@ -23,10 +23,7 @@ void rightAuton() {
   wait(2, sec);
   Intake.stopIntake();
   Chassis.driveDistance(-24);
-
-
 }
-
 
 
 void leftAuton() {

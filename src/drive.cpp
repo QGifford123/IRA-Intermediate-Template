@@ -12,6 +12,15 @@ driveL(driveLeft), driveR(driveRight), Inertial(inertialPort) {
     gearRatio = GearRatio;
 }
 
+drive::drive(double WheelDiameter, double GearRatio, double startX, double startY, double startAngle, vex::motor_group driveLeft, vex::motor_group driveRight, int inertialPort) :
+driveL(driveLeft), driveR(driveRight), Inertial(inertialPort) {
+    wheelDiameter = WheelDiameter;
+    gearRatio = GearRatio;
+    xCoord = startX;
+    yCoord = startY;
+    Inertial.setHeading(startAngle, degrees);
+}
+
 void drive::driveStop() {
     driveL.stop(brake);
     driveR.stop(brake);
@@ -50,6 +59,19 @@ void drive::driveDistance(double distance, double tolerance, double kP, double k
 
     driveStop();
     wait(50, msec);
+
+    double xAxisAngle = (Inertial.heading() * -1) + 90;
+    while(xAxisAngle < 360) xAxisAngle += 360;
+
+    xCoord += cos(xAxisAngle) * (distance - error);
+    yCoord += sin(xAxisAngle) * (distance - error);
+
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+    Brain.Screen.print("x: ");
+    Brain.Screen.print(xCoord);
+    Brain.Screen.print(", y: ");
+    Brain.Screen.print(yCoord);
 }
 
 void drive::turnAngle(double angle) {
@@ -78,4 +100,67 @@ void drive::turnAngle(double angle, double tolerance, double kP, double kI, doub
         driveR.spin(reverse, turnTotal, percent);
         wait(turnPID.getUpdateTime(), msec);
     }
+
+    driveStop();
+    wait(50, msec);
+}
+
+void drive::turnHeading(double heading) {
+    turnHeading(heading, 2, turn_kP, turn_kI, turn_kD);
+}
+
+void drive::turnHeading(double heading, double tolerance) {
+    turnHeading(heading, tolerance, turn_kP, turn_kI, turn_kD);
+}
+
+void drive::turnHeading(double heading, double tolerance, double kP, double kI, double kD) {
+    
+    double error = heading - Inertial.heading();
+    int clockwise;
+
+    //Determine whether robot would be faster turning clockwise (1) or counterclockwise (-1)
+    if((0 <= error && error < 180) || (-360 <= error && error < -180)) clockwise = 1;
+    else clockwise = -1;
+
+    while(error < -180) error += 360;
+    PID turnPID(error, kP, kI, kD, tolerance);
+
+    while(fabs(error) > tolerance) {
+        //Calculate the error, negate it if turning in opposite direction
+        error = (heading - Inertial.heading()) * clockwise;
+        
+        //Convert negative angle to equivalent positive angle
+        while(error < -180) error += 360;
+
+        double turnTotal = turnPID.calculateTotal(error);
+        turnTotal *= clockwise;
+
+        driveL.spin(forward, turnTotal, percent);
+        driveR.spin(reverse, turnTotal, percent);
+        wait(turnPID.getUpdateTime(), msec);
+    }
+
+    driveStop();
+    wait(50, msec);
+}
+
+void drive::turnToPoint(double targetX, double targetY, double tolerance, double kP, double kI, double kD) {
+
+    double neededAngle = fmod((atan2(targetX-xCoord, targetY-yCoord)),(2*M_PI)) * 180 / M_PI;
+
+    //If already at correct angle, wait
+    if(neededAngle == Inertial.heading()) {
+        wait(10, msec);
+    }
+    //Otherwise, turn to correct angle
+    else {
+        turnHeading(neededAngle, tolerance, kP, kI, kD);
+    }
+}
+
+void drive::turnAndDriveToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD) {
+    turnToPoint(targetX, targetY, turnTolerance, turnkP, turnkI, turnkD);
+    
+    double targetDistance = sqrt(((xCoord - targetX) * (xCoord - targetX)) + ((yCoord - targetY) * (yCoord - targetY)));
+    driveDistance(targetDistance, driveTolerance, drivekP, drivekI, drivekD);
 }

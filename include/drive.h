@@ -16,6 +16,9 @@ class drive {
         double turn_kP = 0.5;
         double turn_kI = 0.01;
         double turn_kD = 0.05;
+
+        double xCoord;
+        double yCoord;
     
     public:
         vex::motor_group driveL;
@@ -23,6 +26,9 @@ class drive {
         vex::inertial Inertial;
 
         drive(double WheelDiameter, double GearRatio, vex::motor_group DriveL, vex::motor_group DriveR, int inertialPort);
+
+        //Start angle should be given relative to the vertical side of the field, increasing clockwise (same as Inertial heading)
+        drive(double WheelDiameter, double GearRatio, double startX, double startY, double startAngle, vex::motor_group DriveL, vex::motor_group DriveR, int inertialPort);
 
         void driveStop();
 
@@ -37,4 +43,7 @@ class drive {
         void turnHeading(double heading);
         void turnHeading(double heading, double tolerance);
         void turnHeading(double heading, double tolerance, double kP, double kI, double kD);
+
+        void turnToPoint(double targetX, double targetY, double tolerance, double kP, double kI, double kD);
+        void turnAndDriveToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD);
 };
