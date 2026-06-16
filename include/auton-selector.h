@@ -1,7 +1,19 @@
 /* Helps prevent header files from being included multiple times*/
 #pragma once
 
-int getSelectedAuton();
+class autonSelector {
 
-void displayAutonSelector();
+    private:
+        int autonNumber;
+        int totalAutons;
+
+    public:
+        autonSelector(int startingAuton, int TotalAutons);
+        int getSelectedAuton();
+        void chooseAuton();
+};
+
+
+
+
 

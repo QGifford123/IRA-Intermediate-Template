@@ -4,60 +4,57 @@
 
 using namespace vex;
 
-int selectedAuton = 0;
-
-const std::string autonNames[] = { "Right Auton", "Left Auton", "Skills"};
-const int autonCount = 3;
-
-int getSelectedAuton() {
-  return selectedAuton;
-  //make sure to press right auton//
+autonSelector::autonSelector(int startingAuton, int TotalAutons) {
+  autonNumber = startingAuton;
+  totalAutons = TotalAutons;
 }
 
-void displayAutonSelector() {
+int autonSelector::getSelectedAuton() {
+  return autonNumber;
+}
+
+void autonSelector::chooseAuton() {
+
+  std::string autonNames[] = {"first", "second", "third"};
 
   Controller.Screen.clearLine(3);
   Controller.Screen.setCursor(3, 1);
-  Controller.Screen.print("Auton: %s", autonNames[selectedAuton].c_str());
+  Controller.Screen.print("Auton: %s", autonNames[autonNumber].c_str());
+
+  bool buttonHeld = false;
 
   while (true) {
   
-    if (Controller.ButtonLeft.pressing()) {
-      selectedAuton = (selectedAuton - 1 + autonCount) % autonCount;
-      while(Controller.ButtonLeft.pressing()) {
-        wait(10, msec);
+    if(buttonHeld == true && !(Controller.ButtonLeft.pressing() || Controller.ButtonRight.pressing())) {
+      buttonHeld = false;
+    }
+
+    if(!buttonHeld && (Controller.ButtonLeft.pressing() || Controller.ButtonRight.pressing())) {
+      if (Controller.ButtonLeft.pressing() && autonNumber > 1) {
+        autonNumber--;
       }
+      else if(Controller.ButtonLeft.pressing()) {
+        autonNumber = totalAutons;
+      }
+      else if(Controller.ButtonRight.pressing() && autonNumber < totalAutons) {
+        autonNumber++;
+      }
+      else if(Controller.ButtonRight.pressing()) {
+        autonNumber = 1;
+      }
+      buttonHeld = true;
       Controller.Screen.clearLine(3);
       Controller.Screen.setCursor(3, 1);
-      Controller.Screen.print("Auton: %s", autonNames[selectedAuton].c_str());
-    }
-
-    if (Controller.ButtonRight.pressing()) {
-      selectedAuton = (selectedAuton + 1) % autonCount;
-      while(Controller.ButtonRight.pressing()) {
-        wait(10, msec);
-      }
-      Controller.Screen.clearLine(3);
-      Controller.Screen.setCursor(3, 1);
-      Controller.Screen.print("Auton: %s", autonNames[selectedAuton].c_str());
-    }
-
-    if (Controller.ButtonX.pressing()) {
-      vex::task::sleep(600); //hold down X for 0.6 seconds to select
-      if (Controller.ButtonX.pressing()) {
-        Controller.rumble("..");
-        break;
-      }
-    }
-
-    
+      Controller.Screen.print("Auton: %s", autonNames[autonNumber - 1].c_str());
+    } 
 
     wait(20, msec);
   }
 
   Controller.Screen.clearLine(3);
   Controller.Screen.setCursor(3, 1);
-  Controller.Screen.print("Auton selected");
+  Controller.Screen.print("Auton selected: ");
+  Controller.Screen.print(autonNumber);
   wait(2, sec);
   Controller.Screen.clearLine(3);
 }
