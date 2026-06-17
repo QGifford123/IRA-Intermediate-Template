@@ -11,11 +11,13 @@ class drive {
         double drive_kP = 2;
         double drive_kI = 0.05;
         double drive_kD = 0.2;
+        double drive_tolerance = 1;
 
         //default tuning constants for turning
         double turn_kP = 0.5;
         double turn_kI = 0.01;
         double turn_kD = 0.05;
+        double turn_tolerance = 2;
 
         double xCoord;
         double yCoord;
@@ -45,7 +47,12 @@ class drive {
         void turnHeading(double heading, double tolerance, double kP, double kI, double kD);
 
         void turnToPoint(double targetX, double targetY, double tolerance, double kP, double kI, double kD);
-        void turnAndDriveToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD);
+        
+        void forwardsToPoint(double targetX, double targetY);
+        void forwardsToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD);
+
+        void backwardsToPoint(double targetX, double targetY);
+        void backwardsToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD);
 
         void printCoordInfo();
 };

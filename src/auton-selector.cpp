@@ -4,9 +4,9 @@
 
 using namespace vex;
 
-autonSelector::autonSelector(int startingAuton, int TotalAutons) {
+autonSelector::autonSelector(int startingAuton, int numAutons) {
   autonNumber = startingAuton;
-  totalAutons = TotalAutons;
+  totalAutons = numAutons;
 }
 
 int autonSelector::getSelectedAuton() {

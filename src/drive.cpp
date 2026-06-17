@@ -27,7 +27,7 @@ void drive::driveStop() {
 }
 
 void drive::driveDistance(double distance) {
-    driveDistance(distance, 1, drive_kP, drive_kI, drive_kD);
+    driveDistance(distance, drive_tolerance, drive_kP, drive_kI, drive_kD);
 }
 
 void drive::driveDistance(double distance, double tolerance) {
@@ -71,7 +71,7 @@ void drive::driveDistance(double distance, double tolerance, double kP, double k
 }
 
 void drive::turnAngle(double angle) {
-    turnAngle(angle, 1, turn_kP, turn_kI, turn_kD);
+    turnAngle(angle, turn_tolerance, turn_kP, turn_kI, turn_kD);
 }
 
 void drive::turnAngle(double angle, double tolerance) {
@@ -155,11 +155,25 @@ void drive::turnToPoint(double targetX, double targetY, double tolerance, double
     }
 }
 
-void drive::turnAndDriveToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD) {
+void drive::forwardsToPoint(double targetX, double targetY) {
+    forwardsToPoint(targetX, targetY, turn_tolerance, turn_kP, turn_kI, turn_kD, drive_tolerance, drive_kP, drive_kI, drive_kD);
+}
+
+void drive::forwardsToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD) {
     turnToPoint(targetX, targetY, turnTolerance, turnkP, turnkI, turnkD);
     
     double targetDistance = sqrt(((xCoord - targetX) * (xCoord - targetX)) + ((yCoord - targetY) * (yCoord - targetY)));
     driveDistance(targetDistance, driveTolerance, drivekP, drivekI, drivekD);
+}
+
+void drive::backwardsToPoint(double targetX, double targetY) {
+    backwardsToPoint(targetX, targetY, turn_tolerance, turn_kP, turn_kI, turn_kD, drive_tolerance, drive_kP, drive_kI, drive_kD);
+}
+
+void drive::backwardsToPoint(double targetX, double targetY, double turnTolerance, double turnkP, double turnkI, double turnkD, double driveTolerance, double drivekP, double drivekI, double drivekD) {
+
+    //Students, implement here!
+
 }
 
 void drive::printCoordInfo() {

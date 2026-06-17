@@ -4,12 +4,12 @@
 class autonSelector {
 
     private:
-        int autonNumber;
-        int totalAutons;
+        static int autonNumber;
+        static int totalAutons;
 
     public:
-        autonSelector(int startingAuton, int TotalAutons);
-        int getSelectedAuton();
+        autonSelector(int startingAuton, int numAutons);
+        static int getSelectedAuton();
         void chooseAuton();
 };
 

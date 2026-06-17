@@ -18,7 +18,7 @@ void rightAuton() {
 
   Chassis.driveDistance(24, 1, 1, 0, 0.1);
   wait(5, sec);
-  Chassis.turnAndDriveToPoint(72, 24, 2, 0.5, 0, 0.05, 1, 1, 0, 0.1);
+  Chassis.forwardsToPoint(72, 24, 2, 0.5, 0, 0.05, 1, 1, 0, 0.1);
   wait(5, sec);
 }
 

@@ -41,7 +41,8 @@ void pre_auton(void) {
 
 
   vexcodeInit();
-  
+  autonSelector selector(1, 3);
+  selector.chooseAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -56,7 +57,7 @@ void pre_auton(void) {
 
 void autonomous(void) {
   
-  switch (getSelectedAuton()) {
+  switch (autonSelector::getSelectedAuton()) {
 
     case 0:
       rightAuton();
@@ -210,7 +211,6 @@ int main() {
 
   
   pre_auton();
-  displayAutonSelector();
   //Competition.test_auton();
   //Competition.test_driver();
 
