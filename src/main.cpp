@@ -59,15 +59,15 @@ void autonomous(void) {
   
   switch (autonSelector::getSelectedAuton()) {
 
-    case 0:
+    case 1:
       rightAuton();
       break;
 
-    case 1:
+    case 2:
       leftAuton();
       break;
 
-    case 2:
+    case 3:
       skillsAuton();
       break;
 
