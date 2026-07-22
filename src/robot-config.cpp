@@ -27,8 +27,8 @@ motor RF(PORT3, ratio6_1, false); //Right Front Motor
 motor_group leftDrive(LF, LM, LB);
 motor_group rightDrive(RF, RM, RB);
 
-motor Lift1(PORT1, gearSetting::ratio18_1, true); //Lift motor
-motor Lift2(PORT2, gearSetting::ratio18_1, true); //Lift motor
+motor Lift1(PORT10, gearSetting::ratio18_1, true); //Lift motor
+motor Lift2(PORT11, gearSetting::ratio18_1, true); //Lift motor
 
 digital_out DoubleActingPiston(Brain.ThreeWirePort.A);
 digital_out SingleActingPiston(Brain.ThreeWirePort.B);

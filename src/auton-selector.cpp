@@ -18,7 +18,7 @@ int autonSelector::getSelectedAuton() {
 
 void autonSelector::chooseAuton() {
 
-  std::string autonNames[] = {"first", "second", "third"};
+  std::string autonNames[] = {"right", "left", "skills"};
 
   Controller.Screen.clearLine(3);
   Controller.Screen.setCursor(3, 1);
@@ -27,6 +27,10 @@ void autonSelector::chooseAuton() {
   bool buttonHeld = false;
 
   while (true) {
+
+    if(Controller.ButtonA.pressing()) {
+      break;
+    }
   
     if(buttonHeld == true && !(Controller.ButtonLeft.pressing() || Controller.ButtonRight.pressing())) {
       buttonHeld = false;
@@ -57,7 +61,7 @@ void autonSelector::chooseAuton() {
   Controller.Screen.clearLine(3);
   Controller.Screen.setCursor(3, 1);
   Controller.Screen.print("Auton selected: ");
-  Controller.Screen.print(autonNumber);
+  Controller.Screen.print(autonNames[autonNumber - 1].c_str());
   wait(2, sec);
   Controller.Screen.clearLine(3);
 }
