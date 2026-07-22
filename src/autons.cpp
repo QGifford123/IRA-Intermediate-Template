@@ -17,11 +17,7 @@ void rightAuton() {
   intake Intake(intakeMotors);
 
   Chassis.driveDistance(24, 1, 1, 0, 0.1);
-  wait(5, sec);
-  Chassis.forwardsToPoint(72, 24, 2, 0.5, 0, 0.05, 1, 1, 0, 0.1);
-  wait(5, sec);
 }
-
 
 void leftAuton() {
   
