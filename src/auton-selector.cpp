@@ -22,7 +22,7 @@ void autonSelector::chooseAuton() {
 
   Controller.Screen.clearLine(3);
   Controller.Screen.setCursor(3, 1);
-  Controller.Screen.print("Auton: %s", autonNames[autonNumber].c_str());
+  Controller.Screen.print("Auton: %s", autonNames[autonNumber - 1].c_str());
 
   bool buttonHeld = false;
 
